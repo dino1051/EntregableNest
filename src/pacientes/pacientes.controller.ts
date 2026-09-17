@@ -7,10 +7,9 @@ import {
   Param,
   Delete,
 } from '@nestjs/common';
-import { PacientesService } from './pacientes.service.js'
+import { PacientesService } from './pacientes.service.js';
 import { CreatePacienteDto } from './dto/create-paciente.dto.js';
 import { UpdatePacienteDto } from './dto/update-paciente.dto.js';
-
 
 @Controller('pacientes')
 export class PacientesController {
@@ -18,19 +17,22 @@ export class PacientesController {
 
   @Get()
   findAll() {
-    return this.pacientesService.findAll()
+    return this.pacientesService.findAll();
   }
-   @Post()
+  @Post()
   create(@Body() createPacienteDto: CreatePacienteDto) {
     return this.pacientesService.create(createPacienteDto);
   }
-  @Get(':id') 
+  @Get(':id')
   findOne(@Param('id') id: string) {
     return this.pacientesService.findOne(+id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updatePacienteDto: UpdatePacienteDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updatePacienteDto: UpdatePacienteDto,
+  ) {
     return this.pacientesService.update(+id, updatePacienteDto);
   }
 

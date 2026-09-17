@@ -5,7 +5,7 @@ import {
   MinLength,
   Matches,
   IsBoolean,
-  IsOptional
+  IsOptional,
 } from 'class-validator';
 import { Type } from 'class-transformer';
 
@@ -39,6 +39,5 @@ export class CreatePacienteDto {
   fechaNacimiento: Date;
   @IsBoolean()
   @IsOptional()
-  activo?: boolean
-
+  activo?: boolean;
 }
