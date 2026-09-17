@@ -1,13 +1,13 @@
-import { 
-    Controller, 
-    Get,
-    Post,   
-    Body,
-    Patch,
-    Param,
-    Delete
-} from '@nestjs/common'
-import { PacientesService } from './pacientes.service.js';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
+import { PacientesService } from './pacientes.service.js'
 import { CreatePacienteDto } from './dto/create-paciente.dto.js';
 import { UpdatePacienteDto } from './dto/update-paciente.dto.js';
 
@@ -20,16 +20,13 @@ export class PacientesController {
   findAll() {
     return this.pacientesService.findAll()
   }
-  
-
-   @Get(':id') //req.params.id
-  findOne(@Param('id') id: string) {
-    return this.pacientesService.findOne(+id);
-  }
-
-  @Post() //req.body
+   @Post()
   create(@Body() createPacienteDto: CreatePacienteDto) {
     return this.pacientesService.create(createPacienteDto);
+  }
+  @Get(':id') 
+  findOne(@Param('id') id: string) {
+    return this.pacientesService.findOne(+id);
   }
 
   @Patch(':id')

@@ -11,7 +11,6 @@ import { DoctoresService } from './doctores.service.js'
 import { CreateDoctorDto } from './dto/create-doctor.dto.js';
 import { UpdateDoctorDto } from './dto/update-doctor.dto.js';
 
-
 @Controller('doctores')
 export class DoctoresController {
   constructor(private readonly doctoresService: DoctoresService) {}
@@ -20,25 +19,22 @@ export class DoctoresController {
   findAll() {
     return this.doctoresService.findAll()
   }
+  @Post()
+    create(@Body() CreateDoctorDto: CreateDoctorDto) {
+      return this.doctoresService.create(CreateDoctorDto);
+    }
+  @Get(':id') 
+    findOne(@Param('id') id: string) {
+      return this.doctoresService.findOne(+id);
+    }
   
-
-   @Get(':id') //req.params.id
-  findOne(@Param('id') id: string) {
-    return this.doctoresService.findOne(+id);
-  }
-
-  @Post() //req.body
-  create(@Body() createDoctorDto: CreateDoctorDto) {
-    return this.doctoresService.create(createDoctorDto);
-  }
-
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateDoctorDto: UpdateDoctorDto) {
-    return this.doctoresService.update(+id, updateDoctorDto);
-  }
-
+    update(@Param('id') id: string, @Body() UpdateDoctorDto: UpdateDoctorDto) {
+      return this.doctoresService.update(+id, UpdateDoctorDto);
+    }
+  
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.doctoresService.remove(+id);
-  }
+    remove(@Param('id') id: string) {
+      return this.doctoresService.remove(+id);
+    }
 }
