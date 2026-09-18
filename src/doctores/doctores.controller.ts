@@ -6,34 +6,70 @@ import {
   Patch,
   Param,
   Delete,
+  Req,
 } from '@nestjs/common';
 import { DoctoresService } from './doctores.service.js';
 import { CreateDoctorDto } from './dto/create-doctor.dto.js';
 import { UpdateDoctorDto } from './dto/update-doctor.dto.js';
+import { UseGuards } from '@nestjs/common';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard.js';
+import { RolesGuard } from '../auth/guards/roles.guard.js';
+import { Roles } from '../auth/decorators/roles.decorator.js';
 
 @Controller('doctores')
 export class DoctoresController {
   constructor(private readonly doctoresService: DoctoresService) {}
 
-  @Get()
+  @Get('/todos/')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('ADMIN', 'RECEPCION')
   findAll() {
     return this.doctoresService.findAll();
   }
+
   @Post()
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('ADMIN')
   create(@Body() CreateDoctorDto: CreateDoctorDto) {
     return this.doctoresService.create(CreateDoctorDto);
   }
-  @Get(':id')
+
+  @Get('/admin/:id')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('ADMIN')
   findOne(@Param('id') id: string) {
     return this.doctoresService.findOne(+id);
   }
 
-  @Patch(':id')
+  @Get('/doctor/:id')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('DOCTOR')
+  findDoc(@Req() req: Request & { user: any }) {
+    const id_doctor = req.user.id_doctor;
+    return this.doctoresService.findOne(id_doctor);
+  }
+
+  @Patch('/admin/:id')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('ADMIN')
   update(@Param('id') id: string, @Body() UpdateDoctorDto: UpdateDoctorDto) {
     return this.doctoresService.update(+id, UpdateDoctorDto);
   }
 
-  @Delete(':id')
+  @Patch('/doctor/:id')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('DOCTOR')
+  updateDoc(
+    @Req() req: Request & { user: any },
+    @Body() UpdateDoctorDto: UpdateDoctorDto,
+  ) {
+    const id_doctor = req.user.id_doctor;
+    return this.doctoresService.update(id_doctor, UpdateDoctorDto);
+  }
+
+  @Delete('/admin/:id')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('ADMIN')
   remove(@Param('id') id: string) {
     return this.doctoresService.remove(+id);
   }
