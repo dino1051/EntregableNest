@@ -7,6 +7,7 @@ import { PacientesModule } from './pacientes/pacientes.module.js';
 import { DoctoresModule } from './doctores/doctores.module.js';
 import { UsersModule } from './users/users.module.js';
 import { AuthModule } from './auth/auth.module.js';
+import { CitasModule } from './citas/citas.module.js';
 
 export const { ObserveModule, ObserveInstrument } = createObserveModule();
 
@@ -24,6 +25,7 @@ export const { ObserveModule, ObserveInstrument } = createObserveModule();
     DoctoresModule,
     UsersModule,
     AuthModule,
+    CitasModule,
   ],
   controllers: [AppController],
   providers: [AppService],
