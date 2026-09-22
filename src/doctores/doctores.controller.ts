@@ -15,6 +15,7 @@ import { UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard.js';
 import { RolesGuard } from '../auth/guards/roles.guard.js';
 import { Roles } from '../auth/decorators/roles.decorator.js';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
 @Controller('doctores')
 export class DoctoresController {
@@ -23,6 +24,7 @@ export class DoctoresController {
   @Get('/todos/')
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('ADMIN', 'RECEPCION')
+  @ApiBearerAuth()
   findAll() {
     return this.doctoresService.findAll();
   }
@@ -30,6 +32,7 @@ export class DoctoresController {
   @Post()
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('ADMIN')
+  @ApiBearerAuth()
   create(@Body() CreateDoctorDto: CreateDoctorDto) {
     return this.doctoresService.create(CreateDoctorDto);
   }
@@ -37,6 +40,7 @@ export class DoctoresController {
   @Get('/admin/:id')
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('ADMIN')
+  @ApiBearerAuth()
   findOne(@Param('id') id: string) {
     return this.doctoresService.findOne(+id);
   }
@@ -44,6 +48,7 @@ export class DoctoresController {
   @Get('/doctor/:id')
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('DOCTOR')
+  @ApiBearerAuth()
   findDoc(@Req() req: Request & { user: any }) {
     const id_doctor = req.user.id_doctor;
     return this.doctoresService.findOne(id_doctor);
@@ -52,6 +57,7 @@ export class DoctoresController {
   @Patch('/admin/:id')
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('ADMIN')
+  @ApiBearerAuth()
   update(@Param('id') id: string, @Body() UpdateDoctorDto: UpdateDoctorDto) {
     return this.doctoresService.update(+id, UpdateDoctorDto);
   }
@@ -59,6 +65,7 @@ export class DoctoresController {
   @Patch('/doctor/:id')
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('DOCTOR')
+  @ApiBearerAuth()
   updateDoc(
     @Req() req: Request & { user: any },
     @Body() UpdateDoctorDto: UpdateDoctorDto,
@@ -70,6 +77,7 @@ export class DoctoresController {
   @Delete('/admin/:id')
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('ADMIN')
+  @ApiBearerAuth()
   remove(@Param('id') id: string) {
     return this.doctoresService.remove(+id);
   }

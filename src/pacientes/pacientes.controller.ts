@@ -14,7 +14,10 @@ import { UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard.js';
 import { RolesGuard } from '../auth/guards/roles.guard.js';
 import { Roles } from '../auth/decorators/roles.decorator.js';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
+@ApiTags('Pacientes')
 @Controller('pacientes')
 export class PacientesController {
   constructor(private readonly pacientesService: PacientesService) {}
@@ -22,6 +25,8 @@ export class PacientesController {
   @Get('/todos/')
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('ADMIN', 'RECEPCION')
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Lista todos los pacientes' })
   findAll() {
     return this.pacientesService.findAll();
   }
@@ -29,6 +34,8 @@ export class PacientesController {
   @Post()
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('ADMIN', 'RECEPCION')
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Crea un nuevo paciente' })
   create(@Body() createPacienteDto: CreatePacienteDto) {
     return this.pacientesService.create(createPacienteDto);
   }
@@ -36,6 +43,8 @@ export class PacientesController {
   @Get('/Byid/:id')
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('ADMIN', 'RECEPCION')
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Lista un paciente por su id' })
   findOne(@Param('id') id: string) {
     return this.pacientesService.findOne(+id);
   }
@@ -43,6 +52,8 @@ export class PacientesController {
   @Patch('/Byid/:id')
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('ADMIN', 'RECEPCION')
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Modifica los datos de un paciente por su id' })
   update(
     @Param('id') id: string,
     @Body() updatePacienteDto: UpdatePacienteDto,
@@ -53,6 +64,8 @@ export class PacientesController {
   @Delete(':id')
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('ADMIN')
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Elimina un paciente por su id' })
   remove(@Param('id') id: string) {
     return this.pacientesService.remove(+id);
   }

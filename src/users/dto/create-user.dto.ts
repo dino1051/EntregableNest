@@ -7,6 +7,7 @@ import {
   IsOptional,
   IsEnum,
 } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
 
 import { Role } from '../../generated/prisma/enums.js';
 export class CreateUserDto {
@@ -16,9 +17,11 @@ export class CreateUserDto {
   @Matches(/\S/, {
     message: 'El nombre  no puede contener solo espacios',
   })
+  @ApiProperty({ example: 'Pablo' })
   name: string;
   @IsEmail({}, { message: 'el email debe estar en el formato correcto' })
   @IsNotEmpty({ message: 'el email es obligatorio' })
+  @ApiProperty({ example: 'pablo@dominio.com' })
   email: string;
   @IsString({ message: 'password debe ser una cadena de texto' })
   @IsNotEmpty({ message: 'password es obligatorio' })
@@ -26,8 +29,10 @@ export class CreateUserDto {
   @Matches(/\S/, {
     message: 'La contraseña no puede contener solo espacios',
   })
+  @ApiProperty({ example: '123456' })
   password: string;
   @IsOptional()
-  @IsEnum(Role, { message: 'El rol debe ser ADMIN o USER' })
+  @IsEnum(Role, { message: 'El rol debe ser RECEPCIONISTA o DOCTOR' })
+  @ApiProperty({ example: 'RECEPCIONISTA' })
   role?: Role;
 }
