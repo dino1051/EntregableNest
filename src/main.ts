@@ -5,11 +5,14 @@ import { ValidationPipe } from '@nestjs/common';
 import { PrismaExceptionFilter } from './common/filters/prisma-exception.filter.js';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { LoggingInterceptor } from './common/logging.interceptor.js';
+import { ConfigService } from '@nestjs/config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     instrument: ObserveInstrument,
   });
+  const configService = app.get(ConfigService);
+
   app.useGlobalInterceptors(new LoggingInterceptor());
   app.useGlobalFilters(new PrismaExceptionFilter());
   app.useGlobalPipes(
@@ -29,6 +32,6 @@ async function bootstrap() {
 
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api/docs', app, document);
-  await app.listen(process.env.PORT ?? 3000);
+  await app.listen(configService.getOrThrow<number>('PORT'));
 }
 await bootstrap();

@@ -8,17 +8,20 @@ import { DoctoresModule } from './doctores/doctores.module.js';
 import { UsersModule } from './users/users.module.js';
 import { AuthModule } from './auth/auth.module.js';
 import { CitasModule } from './citas/citas.module.js';
+import { ConfigModule } from '@nestjs/config';
+import Joi from 'joi';
 
 export const { ObserveModule, ObserveInstrument } = createObserveModule();
 
 @Module({
   imports: [
-    // Distributed tracing, auto-correlated logs, request/job metrics, error
-    // telemetry, alarms, and more — out of the box. Sign up at https://observe.nestjs.com
-    ObserveModule.forRoot({
-      appKey: 'YOUR_APP_KEY',
-      appSecret: 'YOUR_APP_SECRET',
-      serviceId: 'clinica-nest',
+    ConfigModule.forRoot({
+      isGlobal: true,
+      validationSchema: Joi.object({
+        DATABASE_URL: Joi.string().required(),
+        JWT_SECRET: Joi.string().min(10).required(),
+        PORT: Joi.number().default(3000),
+      }),
     }),
     PrismaModule,
     PacientesModule,

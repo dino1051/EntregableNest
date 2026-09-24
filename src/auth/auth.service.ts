@@ -4,9 +4,14 @@ import jwt from 'jsonwebtoken';
 import { UsersService } from '../users/users.service.js';
 import { CreateUserDto } from '../users/dto/create-user.dto.js';
 import { LoginDto } from './dto/login.dto.js';
+import { ConfigService } from '@nestjs/config';
+
 @Injectable()
 export class AuthService {
-  constructor(private readonly userService: UsersService) {}
+  constructor(
+    private readonly userService: UsersService,
+    private readonly configService: ConfigService,
+  ) {}
 
   async register(CreateUserDto: CreateUserDto) {
     return this.userService.create(CreateUserDto);
@@ -23,7 +28,7 @@ export class AuthService {
     }
     const token = jwt.sign(
       { id: user.id, email: user.email, role: user.role, name: user.name },
-      process.env.JWT_SECRET as string,
+      this.configService.getOrThrow<string>('JWT_SECRET'),
       { expiresIn: '8h' },
     );
     return { token };
