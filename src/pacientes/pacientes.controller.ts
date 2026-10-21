@@ -23,8 +23,9 @@ export class PacientesController {
   constructor(private readonly pacientesService: PacientesService) {}
 
   @Get('/todos/')
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles('ADMIN', 'RECEPCION')
+  //@UseGuards(JwtAuthGuard)
+  //  , RolesGuard)
+  //@Roles('ADMIN', 'RECEPCION')
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Lista todos los pacientes' })
   findAll() {

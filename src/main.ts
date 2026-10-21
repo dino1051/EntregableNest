@@ -6,6 +6,7 @@ import { PrismaExceptionFilter } from './common/filters/prisma-exception.filter.
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { LoggingInterceptor } from './common/logging.interceptor.js';
 import { ConfigService } from '@nestjs/config';
+import cors from 'cors';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
@@ -23,6 +24,7 @@ async function bootstrap() {
     }),
   );
 
+  app.use(cors({ origin: 'http://localhost:5173' }));
   const config = new DocumentBuilder()
     .setTitle('Clínica Salud Integral')
     .setDescription('API de la clínica, migrada a NestJS')
