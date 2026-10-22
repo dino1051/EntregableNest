@@ -22,7 +22,7 @@ import { ApiBearerAuth } from '@nestjs/swagger';
 export class PacientesController {
   constructor(private readonly pacientesService: PacientesService) {}
 
-  @Get('/todos/')
+  @Get()
   //@UseGuards(JwtAuthGuard)
   //  , RolesGuard)
   //@Roles('ADMIN', 'RECEPCION')
@@ -33,8 +33,8 @@ export class PacientesController {
   }
 
   @Post()
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles('ADMIN', 'RECEPCION')
+  //@UseGuards(JwtAuthGuard, RolesGuard)
+  //@Roles('ADMIN', 'RECEPCION')
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Crea un nuevo paciente' })
   create(@Body() createPacienteDto: CreatePacienteDto) {
@@ -42,8 +42,8 @@ export class PacientesController {
   }
 
   @Get('/Byid/:id')
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles('ADMIN', 'RECEPCION')
+  //@UseGuards(JwtAuthGuard, RolesGuard)
+  //@Roles('ADMIN', 'RECEPCION')
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Lista un paciente por su id' })
   findOne(@Param('id') id: string) {
@@ -51,8 +51,8 @@ export class PacientesController {
   }
 
   @Patch('/Byid/:id')
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles('ADMIN', 'RECEPCION')
+  //@UseGuards(JwtAuthGuard, RolesGuard)
+  //@Roles('ADMIN', 'RECEPCION')
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Modifica los datos de un paciente por su id' })
   update(

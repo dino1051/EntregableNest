@@ -13,9 +13,28 @@ export class CitasService {
 
   async create(data: CreateCitaDto) {
     const paciente = await this.pacientesService.findOne(data.id_paciente);
-    if (!paciente) throw new NotFoundException('El paciente no existe');
 
-    return this.prisma.cita.create({ data });
+    const doctor = await this.prisma.doctor.findUnique({
+      where: {
+        id_doctor: data.id_doctor,
+      },
+    });
+
+    if (!doctor) {
+      throw new NotFoundException('El doctor no existe');
+    }
+
+    return this.prisma.cita.create({
+      data: {
+        fecha: data.fecha,
+        id_paciente: data.id_paciente,
+        id_doctor: data.id_doctor,
+      },
+      include: {
+        paciente: true,
+        doctor: true,
+      },
+    });
   }
 
   findAll() {

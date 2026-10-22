@@ -21,33 +21,33 @@ import { ApiBearerAuth } from '@nestjs/swagger';
 export class DoctoresController {
   constructor(private readonly doctoresService: DoctoresService) {}
 
-  @Get('/todos/')
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles('ADMIN', 'RECEPCION')
+  @Get()
+  //@UseGuards(JwtAuthGuard, RolesGuard)
+  //@Roles('ADMIN', 'RECEPCION')
   @ApiBearerAuth()
   findAll() {
     return this.doctoresService.findAll();
   }
 
   @Post()
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles('ADMIN')
+  //@UseGuards(JwtAuthGuard, RolesGuard)
+  //@Roles('ADMIN')
   @ApiBearerAuth()
   create(@Body() CreateDoctorDto: CreateDoctorDto) {
     return this.doctoresService.create(CreateDoctorDto);
   }
 
   @Get('/admin/:id')
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles('ADMIN')
+  //@UseGuards(JwtAuthGuard, RolesGuard)
+  //@Roles('ADMIN')
   @ApiBearerAuth()
   findOne(@Param('id') id: string) {
     return this.doctoresService.findOne(+id);
   }
 
   @Get('/doctor/:id')
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles('DOCTOR')
+  //@UseGuards(JwtAuthGuard, RolesGuard)
+  //@Roles('DOCTOR')
   @ApiBearerAuth()
   findDoc(@Req() req: Request & { user: any }) {
     const id_doctor = req.user.id_doctor;
@@ -55,16 +55,16 @@ export class DoctoresController {
   }
 
   @Patch('/admin/:id')
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles('ADMIN')
+  //@UseGuards(JwtAuthGuard, RolesGuard)
+  //@Roles('ADMIN')
   @ApiBearerAuth()
   update(@Param('id') id: string, @Body() UpdateDoctorDto: UpdateDoctorDto) {
     return this.doctoresService.update(+id, UpdateDoctorDto);
   }
 
   @Patch('/doctor/:id')
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles('DOCTOR')
+  //@UseGuards(JwtAuthGuard, RolesGuard)
+  //@Roles('DOCTOR')
   @ApiBearerAuth()
   updateDoc(
     @Req() req: Request & { user: any },
