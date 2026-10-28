@@ -4,8 +4,6 @@ import {
   IsString,
   MinLength,
   Matches,
-  IsOptional,
-  IsEnum,
 } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
@@ -31,4 +29,5 @@ export class RegisterUserDto {
   })
   @ApiProperty({ example: '123456' })
   password: string;
+  role?: Role;
 }
