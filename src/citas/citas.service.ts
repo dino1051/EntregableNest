@@ -3,7 +3,7 @@ import { PrismaService } from '../prisma/prisma.service.js';
 import { PacientesService } from '../pacientes/pacientes.service.js';
 import { UpdateCitaDto } from './dto/update-cita.dto.js';
 import { CreateCitaDto } from './dto/create-cita.dto.js';
-
+import { estados } from '../generated/prisma/enums.js';
 @Injectable()
 export class CitasService {
   constructor(
@@ -37,7 +37,17 @@ export class CitasService {
     });
   }
 
-  findAll() {
-    return this.prisma.cita.findMany();
-  }
+  async findAll(estado?: estados) {
+  return this.prisma.cita.findMany({
+    where: estado ? { estado } : {},
+    include: {
+      paciente: true,
+      doctor: true,
+    },
+    orderBy: {
+      fecha: 'desc',
+    },
+  });
+}
+
 }
