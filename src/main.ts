@@ -24,7 +24,14 @@ async function bootstrap() {
     }),
   );
 
-  app.use(cors({ origin: 'http://localhost:5173' }));
+  app.enableCors({
+    origin: [
+      'http://localhost:5173',
+      'https://spa-clinica-integral.vercel.app/',
+    ],
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+    credentials: true,
+  });
   const config = new DocumentBuilder()
     .setTitle('Clínica Salud Integral')
     .setDescription('API de la clínica, migrada a NestJS')
