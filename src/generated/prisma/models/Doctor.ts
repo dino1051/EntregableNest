@@ -232,6 +232,7 @@ export type DoctorWhereInput = {
   telefono?: Prisma.StringNullableFilter<"Doctor"> | string | null
   email?: Prisma.StringFilter<"Doctor"> | string
   activo?: Prisma.BoolFilter<"Doctor"> | boolean
+  usuario?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   citas?: Prisma.CitaListRelationFilter
 }
 
@@ -243,6 +244,7 @@ export type DoctorOrderByWithRelationInput = {
   telefono?: Prisma.SortOrderInput | Prisma.SortOrder
   email?: Prisma.SortOrder
   activo?: Prisma.SortOrder
+  usuario?: Prisma.UserOrderByWithRelationInput
   citas?: Prisma.CitaOrderByRelationAggregateInput
 }
 
@@ -257,6 +259,7 @@ export type DoctorWhereUniqueInput = Prisma.AtLeast<{
   especialidad?: Prisma.StringFilter<"Doctor"> | string
   telefono?: Prisma.StringNullableFilter<"Doctor"> | string | null
   activo?: Prisma.BoolFilter<"Doctor"> | boolean
+  usuario?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   citas?: Prisma.CitaListRelationFilter
 }, "id_doctor" | "email">
 
@@ -295,6 +298,7 @@ export type DoctorCreateInput = {
   telefono?: string | null
   email: string
   activo?: boolean
+  usuario?: Prisma.UserCreateNestedOneWithoutDoctorInput
   citas?: Prisma.CitaCreateNestedManyWithoutDoctorInput
 }
 
@@ -306,6 +310,7 @@ export type DoctorUncheckedCreateInput = {
   telefono?: string | null
   email: string
   activo?: boolean
+  usuario?: Prisma.UserUncheckedCreateNestedOneWithoutDoctorInput
   citas?: Prisma.CitaUncheckedCreateNestedManyWithoutDoctorInput
 }
 
@@ -316,6 +321,7 @@ export type DoctorUpdateInput = {
   telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  usuario?: Prisma.UserUpdateOneWithoutDoctorNestedInput
   citas?: Prisma.CitaUpdateManyWithoutDoctorNestedInput
 }
 
@@ -327,6 +333,7 @@ export type DoctorUncheckedUpdateInput = {
   telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  usuario?: Prisma.UserUncheckedUpdateOneWithoutDoctorNestedInput
   citas?: Prisma.CitaUncheckedUpdateManyWithoutDoctorNestedInput
 }
 
@@ -402,6 +409,11 @@ export type DoctorScalarRelationFilter = {
   isNot?: Prisma.DoctorWhereInput
 }
 
+export type DoctorNullableScalarRelationFilter = {
+  is?: Prisma.DoctorWhereInput | null
+  isNot?: Prisma.DoctorWhereInput | null
+}
+
 export type NullableStringFieldUpdateOperationsInput = {
   set?: string | null
 }
@@ -420,6 +432,22 @@ export type DoctorUpdateOneRequiredWithoutCitasNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.DoctorUpdateToOneWithWhereWithoutCitasInput, Prisma.DoctorUpdateWithoutCitasInput>, Prisma.DoctorUncheckedUpdateWithoutCitasInput>
 }
 
+export type DoctorCreateNestedOneWithoutUsuarioInput = {
+  create?: Prisma.XOR<Prisma.DoctorCreateWithoutUsuarioInput, Prisma.DoctorUncheckedCreateWithoutUsuarioInput>
+  connectOrCreate?: Prisma.DoctorCreateOrConnectWithoutUsuarioInput
+  connect?: Prisma.DoctorWhereUniqueInput
+}
+
+export type DoctorUpdateOneWithoutUsuarioNestedInput = {
+  create?: Prisma.XOR<Prisma.DoctorCreateWithoutUsuarioInput, Prisma.DoctorUncheckedCreateWithoutUsuarioInput>
+  connectOrCreate?: Prisma.DoctorCreateOrConnectWithoutUsuarioInput
+  upsert?: Prisma.DoctorUpsertWithoutUsuarioInput
+  disconnect?: Prisma.DoctorWhereInput | boolean
+  delete?: Prisma.DoctorWhereInput | boolean
+  connect?: Prisma.DoctorWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.DoctorUpdateToOneWithWhereWithoutUsuarioInput, Prisma.DoctorUpdateWithoutUsuarioInput>, Prisma.DoctorUncheckedUpdateWithoutUsuarioInput>
+}
+
 export type DoctorCreateWithoutCitasInput = {
   nombre: string
   apellido: string
@@ -427,6 +455,7 @@ export type DoctorCreateWithoutCitasInput = {
   telefono?: string | null
   email: string
   activo?: boolean
+  usuario?: Prisma.UserCreateNestedOneWithoutDoctorInput
 }
 
 export type DoctorUncheckedCreateWithoutCitasInput = {
@@ -437,6 +466,7 @@ export type DoctorUncheckedCreateWithoutCitasInput = {
   telefono?: string | null
   email: string
   activo?: boolean
+  usuario?: Prisma.UserUncheckedCreateNestedOneWithoutDoctorInput
 }
 
 export type DoctorCreateOrConnectWithoutCitasInput = {
@@ -462,6 +492,7 @@ export type DoctorUpdateWithoutCitasInput = {
   telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  usuario?: Prisma.UserUpdateOneWithoutDoctorNestedInput
 }
 
 export type DoctorUncheckedUpdateWithoutCitasInput = {
@@ -472,6 +503,65 @@ export type DoctorUncheckedUpdateWithoutCitasInput = {
   telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  usuario?: Prisma.UserUncheckedUpdateOneWithoutDoctorNestedInput
+}
+
+export type DoctorCreateWithoutUsuarioInput = {
+  nombre: string
+  apellido: string
+  especialidad: string
+  telefono?: string | null
+  email: string
+  activo?: boolean
+  citas?: Prisma.CitaCreateNestedManyWithoutDoctorInput
+}
+
+export type DoctorUncheckedCreateWithoutUsuarioInput = {
+  id_doctor?: number
+  nombre: string
+  apellido: string
+  especialidad: string
+  telefono?: string | null
+  email: string
+  activo?: boolean
+  citas?: Prisma.CitaUncheckedCreateNestedManyWithoutDoctorInput
+}
+
+export type DoctorCreateOrConnectWithoutUsuarioInput = {
+  where: Prisma.DoctorWhereUniqueInput
+  create: Prisma.XOR<Prisma.DoctorCreateWithoutUsuarioInput, Prisma.DoctorUncheckedCreateWithoutUsuarioInput>
+}
+
+export type DoctorUpsertWithoutUsuarioInput = {
+  update: Prisma.XOR<Prisma.DoctorUpdateWithoutUsuarioInput, Prisma.DoctorUncheckedUpdateWithoutUsuarioInput>
+  create: Prisma.XOR<Prisma.DoctorCreateWithoutUsuarioInput, Prisma.DoctorUncheckedCreateWithoutUsuarioInput>
+  where?: Prisma.DoctorWhereInput
+}
+
+export type DoctorUpdateToOneWithWhereWithoutUsuarioInput = {
+  where?: Prisma.DoctorWhereInput
+  data: Prisma.XOR<Prisma.DoctorUpdateWithoutUsuarioInput, Prisma.DoctorUncheckedUpdateWithoutUsuarioInput>
+}
+
+export type DoctorUpdateWithoutUsuarioInput = {
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  apellido?: Prisma.StringFieldUpdateOperationsInput | string
+  especialidad?: Prisma.StringFieldUpdateOperationsInput | string
+  telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  citas?: Prisma.CitaUpdateManyWithoutDoctorNestedInput
+}
+
+export type DoctorUncheckedUpdateWithoutUsuarioInput = {
+  id_doctor?: Prisma.IntFieldUpdateOperationsInput | number
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  apellido?: Prisma.StringFieldUpdateOperationsInput | string
+  especialidad?: Prisma.StringFieldUpdateOperationsInput | string
+  telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  citas?: Prisma.CitaUncheckedUpdateManyWithoutDoctorNestedInput
 }
 
 
@@ -513,6 +603,7 @@ export type DoctorSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   telefono?: boolean
   email?: boolean
   activo?: boolean
+  usuario?: boolean | Prisma.Doctor$usuarioArgs<ExtArgs>
   citas?: boolean | Prisma.Doctor$citasArgs<ExtArgs>
   _count?: boolean | Prisma.DoctorCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["doctor"]>
@@ -549,6 +640,7 @@ export type DoctorSelectScalar = {
 
 export type DoctorOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id_doctor" | "nombre" | "apellido" | "especialidad" | "telefono" | "email" | "activo", ExtArgs["result"]["doctor"]>
 export type DoctorInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  usuario?: boolean | Prisma.Doctor$usuarioArgs<ExtArgs>
   citas?: boolean | Prisma.Doctor$citasArgs<ExtArgs>
   _count?: boolean | Prisma.DoctorCountOutputTypeDefaultArgs<ExtArgs>
 }
@@ -558,6 +650,7 @@ export type DoctorIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
 export type $DoctorPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Doctor"
   objects: {
+    usuario: Prisma.$UserPayload<ExtArgs> | null
     citas: Prisma.$CitaPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -962,6 +1055,7 @@ readonly fields: DoctorFieldRefs;
  */
 export interface Prisma__DoctorClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  usuario<T extends Prisma.Doctor$usuarioArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Doctor$usuarioArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   citas<T extends Prisma.Doctor$citasArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Doctor$citasArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CitaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1389,6 +1483,25 @@ export type DoctorDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Intern
    * Limit how many Doctors to delete.
    */
   limit?: number
+}
+
+/**
+ * Doctor.usuario
+ */
+export type Doctor$usuarioArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the User
+   */
+  select?: Prisma.UserSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the User
+   */
+  omit?: Prisma.UserOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserInclude<ExtArgs> | null
+  where?: Prisma.UserWhereInput
 }
 
 /**

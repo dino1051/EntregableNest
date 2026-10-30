@@ -124,10 +124,13 @@ export type ConsultasMedicasScalarFieldEnum = (typeof ConsultasMedicasScalarFiel
 
 export const UserScalarFieldEnum = {
   id: 'id',
+  nombre: 'nombre',
   email: 'email',
   password: 'password',
   role: 'role',
-  creadoEn: 'creadoEn'
+  fotoUrl: 'fotoUrl',
+  creadoEn: 'creadoEn',
+  id_doctor: 'id_doctor'
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
