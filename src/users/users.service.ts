@@ -16,14 +16,17 @@ export class UsersService {
 
   async create(createUserDto: CreateUserDto) {
     const hashedPassword = await bcrypt.hash(createUserDto.password, 10);
-    return await this.prisma.user.create({
+
+    return this.prisma.user.create({
       data: {
+        nombre: createUserDto.nombre,
         email: createUserDto.email,
         password: hashedPassword,
         role: createUserDto.role ?? Role.RECEPCION,
       },
       select: {
         id: true,
+        nombre: true,
         email: true,
         role: true,
         creadoEn: true,
@@ -34,6 +37,14 @@ export class UsersService {
   async findAll() {
     return this.prisma.user.findMany({
       orderBy: { id: 'asc' },
+      select: {
+        id: true,
+        nombre: true,
+        email: true,
+        role: true,
+        id_doctor: true,
+        creadoEn: true,
+      },
     });
   }
 
@@ -54,32 +65,53 @@ export class UsersService {
   }
 
   async update(id: number, updateUserDto: UpdateUserDto) {
-    return await this.prisma.user.update({
+    const user = await this.prisma.user.findUnique({
       where: { id },
-      data: updateUserDto,
+      select: { id: true },
+    });
+
+    if (!user) {
+      throw new NotFoundException(`Usuario de ID: ${id} no encontrado`);
+    }
+
+    const { password, ...datosUsuario } = updateUserDto;
+
+    return this.prisma.user.update({
+      where: { id },
+      data: {
+        ...datosUsuario,
+        ...(password && {
+          password: await bcrypt.hash(password, 10),
+        }),
+      },
+      select: {
+        id: true,
+        nombre: true,
+        email: true,
+        role: true,
+        id_doctor: true,
+        creadoEn: true,
+      },
     });
   }
 
   async remove(id: number) {
     const user = await this.prisma.user.findUnique({
       where: { id },
+      select: { id: true },
     });
+
     if (!user) {
-      throw new NotFoundException(`usuario de ID: ${id} no encontrado`);
+      throw new NotFoundException(`Usuario de ID: ${id} no encontrado`);
     }
-    return await this.prisma.user.delete({
+
+    return this.prisma.user.delete({
       where: { id },
-    });
-  }
-  async findByEmail(email: string) {
-    return this.prisma.user.findUnique({
-      where: { email },
       select: {
         id: true,
+        nombre: true,
         email: true,
         role: true,
-        creadoEn: true,
-        password: true,
       },
     });
   }
@@ -113,6 +145,19 @@ export class UsersService {
     }
 
     return user;
+  }
+
+  async findByEmail(email: string) {
+    return this.prisma.user.findUnique({
+      where: { email },
+      select: {
+        id: true,
+        nombre: true,
+        email: true,
+        role: true,
+        password: true,
+      },
+    });
   }
 
   async updateProfile(id: number, dto: UpdateProfileDto) {

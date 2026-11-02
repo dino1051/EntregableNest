@@ -19,18 +19,35 @@ export class AuthService {
 
   async login(LoginDto: LoginDto) {
     const user = await this.userService.findByEmail(LoginDto.email);
+
     if (!user) {
-      throw new UnauthorizedException('Credenciales Invalidas');
+      throw new UnauthorizedException('Credenciales inválidas');
     }
+
     const isMatch = await bcrypt.compare(LoginDto.password, user.password);
+
     if (!isMatch) {
-      throw new UnauthorizedException('Credenciales Invalidas');
+      throw new UnauthorizedException('Credenciales inválidas');
     }
+
     const token = jwt.sign(
-      { id: user.id, email: user.email, role: user.role },
+      {
+        id: user.id,
+        email: user.email,
+        role: user.role,
+      },
       this.configService.getOrThrow<string>('JWT_SECRET'),
       { expiresIn: '8h' },
     );
-    return { token };
+
+    return {
+      token,
+      usuario: {
+        id: user.id,
+        nombre: user.nombre,
+        email: user.email,
+        role: user.role,
+      },
+    };
   }
 }
