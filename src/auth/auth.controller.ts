@@ -3,10 +3,18 @@ import { AuthService } from './auth.service.js';
 import { CreateUserDto } from '../users/dto/create-user.dto.js';
 import { LoginDto } from './dto/login.dto.js';
 import { RegisterUserDto } from './dto/register.dto.js';
-CreateUserDto;
+import { JwtAuthGuard } from './guards/jwt-auth.guard.js';
+import { UseGuards } from '@nestjs/common';
+import { CurrentUser } from './decorators/roles.decorator.js';
+import type { AuthUser } from './interfaces/auth-user.interface.js';
+import { UsersService } from '../users/users.service.js';
+
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(
+    private readonly authService: AuthService,
+    private readonly usersService: UsersService,
+  ) {}
 
   @Post('register')
   async register(@Body() RegisterUserDto: RegisterUserDto) {
@@ -18,7 +26,8 @@ export class AuthController {
   }
 
   @Get('profile')
-  async profile(@Req() req: Request & { user: unknown }) {
-    return req.user;
+  @UseGuards(JwtAuthGuard)
+  getProfile(@CurrentUser() user: AuthUser) {
+    return this.usersService.findProfileById(user.id);
   }
 }
